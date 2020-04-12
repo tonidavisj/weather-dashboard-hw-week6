@@ -140,7 +140,7 @@ function show5DayForecast(cordslat,cordslon){
 
         for(var i = 0; i < 5; i++){
             
-            var currentDayb = moment().add(dayCounter, 'day');
+            var currentDayb = moment().add(dayCounter, 'day').format('dddd, MMMM Do');
             var temp = (response.daily[i].temp.day - 273.15) * 1.80 + 32;
             var dayCard =`<div class="col-lg"><div class="card"><p class="card-title">${currentDayb}</p><p><img src="http://openweathermap.org/img/wn/${response.daily[i].weather[0].icon}.png"></p><p>Temp: ${temp.toFixed(2)} &#8457;</p><p>Humidity: ${response.daily[i].humidity}%</p></div></div>`
 
