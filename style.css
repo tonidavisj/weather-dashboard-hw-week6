@@ -1,0 +1,13 @@
+.searchUVIndex .result{
+    padding: 2px;
+    border-radius: 4px;
+}
+
+.jumbotron{
+    background:#fff;
+    border: 1px solid #e5e5e5;
+}
+
+.dayCards .col{
+    margin: 0 5px;
+}
