@@ -14,6 +14,8 @@ $(document).ready(function(){
 
         showCurrentWeather(this.innerText);
 
+        currentDate.text(momentDate);
+
 
     });
 
@@ -134,11 +136,17 @@ function show5DayForecast(cordslat,cordslon){
 
         $('.currentCityIcon')[0].innerHTML = `<img src="http://openweathermap.org/img/wn/${response.current.weather[0].icon}.png">`
         $('.dayCards').empty();
+        var dayCounter = 1;
+
         for(var i = 0; i < 5; i++){
+            
+            var currentDayb = moment().add(dayCounter, 'day');
             var temp = (response.daily[i].temp.day - 273.15) * 1.80 + 32;
-            var dayCard =`<div class="col-lg"><div class="card"><p class="card-title">Date</p><p><img src="http://openweathermap.org/img/wn/${response.daily[i].weather[0].icon}.png"></p><p>Temp: ${temp.toFixed(2)} &#8457;</p><p>Humidity: ${response.daily[i].humidity}%</p></div></div>`
+            var dayCard =`<div class="col-lg"><div class="card"><p class="card-title">${currentDayb}</p><p><img src="http://openweathermap.org/img/wn/${response.daily[i].weather[0].icon}.png"></p><p>Temp: ${temp.toFixed(2)} &#8457;</p><p>Humidity: ${response.daily[i].humidity}%</p></div></div>`
 
             dayCardsContainer.append(dayCard);
+
+            dayCounter++;
         }
     });
 
