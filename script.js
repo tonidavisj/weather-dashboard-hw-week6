@@ -3,7 +3,7 @@ $(document).ready(function(){
     var citySearchedInput = $(".citySearched");
     var citySearchBtn = $(".searchCityBtn");
     var citySearches = $('.citySearches');
-    var searchCityList = localStorage.getItem('city');
+    var searchCityList = JSON.parse(localStorage.getItem('city'));
     var momentDate = moment().format('dddd, MMMM Do');
     var currentDate = $('.searchDate');
     
@@ -19,23 +19,24 @@ $(document).ready(function(){
 
         var currentCity = citySearchedInput[0].value;
 
-        //searchCityList.push(currentCity)
+        $('.searchCity').text(currentCity);
 
-       // console.log(searchCityList);
+        searchCityList.push(currentCity)
 
-        //console.log(citySearches);
+       console.log(searchCityList);
+
+        console.log(citySearches);
     
-       // localStorage.setItem('city', JSON.stringify(searchCityList));
+       localStorage.setItem('city', JSON.stringify(searchCityList));
 
-        //var storedCities = JSON.parse(localStorage.getItem('city'));
+        var storedCities = JSON.parse(localStorage.getItem('city'));
 
-        // storedCities.forEach(city => {
-        //     citySearches.append(` <li class="list-group-item ">${city}</li>`)
-        // });
+        storedCities.forEach(city => {
+            citySearches.append(` <li class="list-group-item ">${city}</li>`)
+        });
+
+
         showCurrentWeather(currentCity);
-
-
-        //show5DayForecast(currentCity);
 
         
     });
@@ -44,7 +45,7 @@ $(document).ready(function(){
 
 function showCurrentWeather(city){
 
-    debugger;
+    //debugger;
 
     var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=4e1d3f7a2819df21862189cf606302c7`;
 
@@ -56,8 +57,8 @@ function showCurrentWeather(city){
 
         var tempF = (response.main.temp - 273.15) * 1.80 + 32;
 
-        $('.searchTemp .result').text(tempF.toFixed(2));
-        $('.searchHumidity .result').text(response.main.humidity);
+        $('.searchTemp .result')[0].innerHTML= tempF.toFixed(2) + '&#8457;';
+        $('.searchHumidity .result').text(response.main.humidity + '%');
         $('.searchWindSpeed .result').text(response.wind.speed);
 
         
@@ -117,10 +118,16 @@ function show5DayForecast(cordslat,cordslon){
         method: 'GET'
     }).then(function(response){
         console.log(response);
+
+        $('.currentCityIcon')[0].innerHTML = `<img src="http://openweathermap.org/img/wn/${response.current.weather[0].icon}.png">`
+
+        for(var i = 0; i < 5; i++){
+            var temp = (response.daily[i].temp.day - 273.15) * 1.80 + 32;
+            var dayCard =`<div class="col"><div class="card"><p class="card-title">Date</p><p><img src="http://openweathermap.org/img/wn/${response.daily[i].weather[0].icon}.png"></p><p>Temp: ${temp.toFixed(2)} &#8457;</p><p>Humidity: ${response.daily[i].humidity}%</p></div></div>`
+
+            dayCardsContainer.append(dayCard);
+        }
     });
 
-    // for(var i = 0; i < 5; i++){
-
-    //     dayCardsContainer.append()
-    // }
+    
 }
