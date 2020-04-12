@@ -8,7 +8,15 @@ $(document).ready(function(){
     var currentDate = $('.searchDate');
     
     
+    $("body").delegate('.pastCity',"click",function(){
+        console.log(this.innerText);
 
+        $('.searchCity').text(this.innerText);
+
+        showCurrentWeather(this.innerText);
+
+
+    });
     
 
     citySearchBtn.click(function(){
@@ -32,7 +40,7 @@ $(document).ready(function(){
         var storedCities = JSON.parse(localStorage.getItem('city'));
 
         storedCities.forEach(city => {
-            citySearches.append(` <li class="list-group-item ">${city}</li>`)
+            citySearches.append(` <li class="list-group-item pastCity">${city}</li>`)
         });
 
 
@@ -120,7 +128,7 @@ function show5DayForecast(cordslat,cordslon){
         console.log(response);
 
         $('.currentCityIcon')[0].innerHTML = `<img src="http://openweathermap.org/img/wn/${response.current.weather[0].icon}.png">`
-
+        $('.dayCards').empty();
         for(var i = 0; i < 5; i++){
             var temp = (response.daily[i].temp.day - 273.15) * 1.80 + 32;
             var dayCard =`<div class="col"><div class="card"><p class="card-title">Date</p><p><img src="http://openweathermap.org/img/wn/${response.daily[i].weather[0].icon}.png"></p><p>Temp: ${temp.toFixed(2)} &#8457;</p><p>Humidity: ${response.daily[i].humidity}%</p></div></div>`
