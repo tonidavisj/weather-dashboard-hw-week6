@@ -9,7 +9,6 @@ $(document).ready(function(){
     
     
     $("body").delegate('.pastCity',"click",function(){
-        console.log(this.innerText);
 
         $('.searchCity').text(this.innerText);
 
@@ -17,30 +16,36 @@ $(document).ready(function(){
 
 
     });
+
+    if(searchCityList != null){
+        searchCityList.forEach(city => {
+            citySearches.append(` <li class="list-group-item pastCity">${city}</li>`)
+        });
+    }else{
+        searchCityList = [];
+    }
     
 
     citySearchBtn.click(function(){
 
         currentDate.text(momentDate);
-        
-        console.log(citySearchedInput);
 
         var currentCity = citySearchedInput[0].value;
 
         $('.searchCity').text(currentCity);
 
-        searchCityList.push(currentCity)
-
-       console.log(searchCityList);
-
-        console.log(citySearches);
+        searchCityList.push(currentCity);
     
-       localStorage.setItem('city', JSON.stringify(searchCityList));
+        localStorage.setItem('city', JSON.stringify(searchCityList));
 
         var storedCities = JSON.parse(localStorage.getItem('city'));
 
+        $('.citySearchesDiv').empty();
+
+       // $('.citySearchesDiv').append(`<ul class="list-group citySearches"></ul>`);
+
         storedCities.forEach(city => {
-            citySearches.append(` <li class="list-group-item pastCity">${city}</li>`)
+            $('.citySearchesDiv').append(` <li class="list-group-item pastCity">${city}</li>`)
         });
 
 
@@ -131,7 +136,7 @@ function show5DayForecast(cordslat,cordslon){
         $('.dayCards').empty();
         for(var i = 0; i < 5; i++){
             var temp = (response.daily[i].temp.day - 273.15) * 1.80 + 32;
-            var dayCard =`<div class="col"><div class="card"><p class="card-title">Date</p><p><img src="http://openweathermap.org/img/wn/${response.daily[i].weather[0].icon}.png"></p><p>Temp: ${temp.toFixed(2)} &#8457;</p><p>Humidity: ${response.daily[i].humidity}%</p></div></div>`
+            var dayCard =`<div class="col-lg"><div class="card"><p class="card-title">Date</p><p><img src="http://openweathermap.org/img/wn/${response.daily[i].weather[0].icon}.png"></p><p>Temp: ${temp.toFixed(2)} &#8457;</p><p>Humidity: ${response.daily[i].humidity}%</p></div></div>`
 
             dayCardsContainer.append(dayCard);
         }

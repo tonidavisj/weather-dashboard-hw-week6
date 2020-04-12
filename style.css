@@ -8,6 +8,13 @@
     border: 1px solid #e5e5e5;
 }
 
-.dayCards .col{
-    margin: 0 5px;
+.dayCards .col-lg{
+    margin: 10px 5px;
+}
+
+.dayCards .card{
+    
+    background: blue;
+    color: white;
+
 }
